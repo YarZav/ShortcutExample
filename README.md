@@ -1,0 +1,2 @@
+# ShortcutExample
+Shortcut test project
