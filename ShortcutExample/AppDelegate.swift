@@ -1,23 +1,23 @@
-//
-//  AppDelegate.swift
-//  ShortcutExample
-//
-//  Created by Iaroslav Zavialov on 12.06.2022.
-//
-
 import UIKit
 
 @main
-final class AppDelegate: UIResponder, UIApplicationDelegate {
-  var window: UIWindow?
+final class AppDelegate: UIResponder {
+  /// App window
+  private let window = UIWindow(frame: UIScreen.main.bounds)
 
+  /// App configuration to coordinate into first screen
+  private let appConfiguration: IZAppConfigurationProtocol = IZAppConfiguration()
+}
+
+// MARK: - UIApplicationDelegate
+
+extension AppDelegate: UIApplicationDelegate {
   func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    window = UIWindow(frame: UIScreen.main.bounds)
-    window?.rootViewController = ViewController()
-    window?.makeKeyAndVisible()
+    window.rootViewController = appConfiguration.coordinatorFlow.getNavigationController()
+    window.makeKeyAndVisible()
     return true
   }
 }
