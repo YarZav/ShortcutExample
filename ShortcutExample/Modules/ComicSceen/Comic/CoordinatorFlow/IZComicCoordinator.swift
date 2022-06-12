@@ -42,7 +42,14 @@ extension IZComicCoordinator: IZCoordinatorProtocol {
 
 private extension IZComicCoordinator {
   func comic() {
-    let comic = factory.comic()
+    let comic = factory.comic { [weak self] in
+      self?.comicDetail(with: $0)
+    }
     router.setRoot(comic)
+  }
+
+  func comicDetail(with model: IZComicModel) {
+    let comic = factory.comicDetail(model)
+    router.push(comic)
   }
 }

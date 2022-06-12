@@ -5,7 +5,7 @@ final class IZTabBarViewController: UITabBarController, IZPresenterProtocol {
 
   private enum Constants {
     static let comicText = NSLocalizedString("ComicKey", comment: "")
-    static let comicImageName = ""
+    static let comicImageName = "flame"
   }
 
   // MARK: - Internal property
@@ -35,7 +35,6 @@ private extension IZTabBarViewController {
 
   func updateUI() {
     tabBar.unselectedItemTintColor = .black
-    tabBar.tintColor = .systemYellow
     navigationController?.setNavigationBarHidden(true, animated: false)
     addTabBarItem(for: comicViewController, title: Constants.comicText, imageName: Constants.comicImageName)
     viewControllers = [comicViewController].compactMap { $0 }
@@ -54,12 +53,7 @@ private extension IZTabBarViewController {
 
 // MARK: - IZTabBarViewProtocol
 
-extension IZTabBarViewController: IZTabBarViewProtocol {
-  func reloadBadge(_ count: Int) {
-    tabBar.items?.last?.badgeValue = "\(count)"
-    tabBar.items?.last?.badgeColor = .systemYellow
-  }
-}
+extension IZTabBarViewController: IZTabBarViewProtocol { }
 
 // MARK: - UITabBarControllerDelegate
 
