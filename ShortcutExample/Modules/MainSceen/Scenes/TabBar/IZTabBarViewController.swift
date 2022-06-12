@@ -3,9 +3,14 @@ import UIKit
 final class IZTabBarViewController: UITabBarController, IZPresenterProtocol {
   // MARK: - Constants
 
-  private enum Constants { }
+  private enum Constants {
+    static let comicText = NSLocalizedString("ComicKey", comment: "")
+    static let comicImageName = ""
+  }
 
   // MARK: - Internal property
+
+  var comicViewController: UIViewController?
 
   // MARK: - Life circle
 
@@ -32,6 +37,8 @@ private extension IZTabBarViewController {
     tabBar.unselectedItemTintColor = .black
     tabBar.tintColor = .systemYellow
     navigationController?.setNavigationBarHidden(true, animated: false)
+    addTabBarItem(for: comicViewController, title: Constants.comicText, imageName: Constants.comicImageName)
+    viewControllers = [comicViewController].compactMap { $0 }
   }
 
   func addTabBarItem(
