@@ -19,6 +19,8 @@ targets:
     sources: [ShortcutExample]
     scheme:
       gatherCoverageData: true
+      testTargets:
+        - name: ShortcutExampleTests
     settings:
       configs:
         debug:
@@ -29,3 +31,11 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.IZ.ShortcutExample
         TARGETED_DEVICE_FAMILY: 1
         GCC_TREAT_WARNINGS_AS_ERRORS: YES
+
+  ShortcutExampleTests:
+    platform: iOS
+    deploymentTarget: 15.0
+    sources: [ShortcutExampleTests]
+    type: bundle.unit-test
+    dependencies:
+      - target: ShortcutExample

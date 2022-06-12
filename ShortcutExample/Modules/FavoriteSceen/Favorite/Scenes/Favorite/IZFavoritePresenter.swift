@@ -33,7 +33,6 @@ extension IZFavoritePresenter: IZFavoritePresenterProtocol {
   func viewWillApear() {
     let dbModels = interactor.favorites()
     favorites = mapper.map(from: dbModels)
-
     favorites.isEmpty ? view?.showEmpty() : view?.reloadData()
   }
 }
