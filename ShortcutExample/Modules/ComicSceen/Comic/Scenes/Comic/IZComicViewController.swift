@@ -5,9 +5,19 @@ final class IZComicViewController: UIViewController, IZPresenterProtocol {
 
   private enum Constants {
     static let margin: CGFloat = 20
+    static let imageShare = "square.and.arrow.up"
   }
 
   // MARK: - Private property
+
+  private lazy var shareBarButtonItem: UIBarButtonItem = {
+    .init(
+      image: UIImage(systemName: Constants.imageShare),
+      style: .plain,
+      target: self,
+      action: #selector(didShare)
+    )
+  }()
 
   private lazy var searchBar: UISearchBar = {
     let searchBar = IZSearchBar()
@@ -37,7 +47,7 @@ final class IZComicViewController: UIViewController, IZPresenterProtocol {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    createUI()
+    setUp()
     presenter.viewDidLoad()
   }
 }
@@ -65,9 +75,17 @@ extension IZComicViewController: IZComicViewProtocol {
 // MARK: - Private
 
 private extension IZComicViewController {
-  func createUI() {
-    navigationItem.titleView = searchBar
+  func setUp() {
+    createNavigationItem()
+    createImageView()
+  }
 
+  func createNavigationItem() {
+    navigationItem.titleView = searchBar
+    navigationItem.leftBarButtonItem = shareBarButtonItem
+  }
+
+  func createImageView() {
     view.addSubview(imageView)
     imageView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -84,5 +102,18 @@ private extension IZComicViewController {
 extension IZComicViewController: IZSearchBarDelegate {
   func search(by text: String) {
     presenter.search(by: text)
+  }
+}
+
+// MARK: - Action
+
+private extension IZComicViewController {
+  @objc
+  func didShare() {
+    guard let image = imageView.image else { return }
+    let imageToShare = [image]
+    let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+    activityViewController.popoverPresentationController?.sourceView = view
+    present(activityViewController, animated: true, completion: nil)
   }
 }
