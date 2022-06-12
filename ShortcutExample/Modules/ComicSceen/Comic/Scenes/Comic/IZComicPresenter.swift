@@ -6,6 +6,8 @@ final class IZComicPresenter {
   private let interactor: IZComicInteractorProtocol
   private let mapper: IZComicMapperProtocol
 
+  private let searchBuffer = IZSearchBuffer(queue: .main)
+
   // MARK: - Internal property
 
   weak var view: IZComicViewProtocol?
@@ -39,8 +41,23 @@ extension IZComicPresenter: IZComicPresenterProtocol {
     }
   }
 
+  func viewDidSearch(with text: String) {
+    view?.startLoading()
+    interactor.search(with: text) { [weak self] result in
+      DispatchQueue.main.async {
+        self?.loadCurrentComicResult(result)
+      }
+    }
+  }
+
   func search(by text: String?) {
-    
+    searchBuffer.searchBy(text: text) { [weak self] in
+      if let searchText = $0.nilIfEmpty {
+        self?.viewDidSearch(with: searchText)
+      } else {
+        self?.viewDidLoad()
+      }
+    }
   }
 }
 

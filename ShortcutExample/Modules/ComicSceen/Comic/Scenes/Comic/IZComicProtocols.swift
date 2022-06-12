@@ -42,4 +42,7 @@ protocol IZComicMapperProtocol {
 protocol IZComicInteractorProtocol {
   /// Load current comic
   func loadCurrentComic(_ completion: ((Result<Data?, IZURLError>) -> Void)?)
+
+  /// Search comic
+  func search(with text: String?, completion: ((Result<Data?, IZURLError>) -> Void)?)
 }
