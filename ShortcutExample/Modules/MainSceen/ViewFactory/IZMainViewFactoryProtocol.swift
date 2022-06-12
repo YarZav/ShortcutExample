@@ -3,6 +3,10 @@ protocol IZMainViewFactoryProtocol {
   ///
   /// - Parameters:
   ///   - comicCoordinatorFlow: Comic coordinator flow
+  ///   - favoriteCoordinatorFlow: Favorite coordinator flow
   /// - Returns: View
-  func tabBar(comicCoordinatorFlow: IZComicCoordinator) -> IZPresenterProtocol
+  func tabBar(
+    comicCoordinatorFlow: IZComicCoordinator,
+    favoriteCoordinatorFlow: IZFavoriteCoordinator
+  ) -> IZPresenterProtocol
 }

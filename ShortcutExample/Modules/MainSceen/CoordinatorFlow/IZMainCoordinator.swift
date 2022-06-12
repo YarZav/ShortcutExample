@@ -13,6 +13,13 @@ final class IZMainCoordinator: IZBaseCoordinator {
     return coordinatorFlow
   }()
 
+  /// Corodiantor flow for favorite (right TabBar item)
+  private lazy var favoriteCoordinatorFlow: IZFavoriteCoordinator = {
+    let coordinatorFlow = IZFavoriteCoordinator(router: createNewRouter())
+    addAndStartCoordinator(coordinatorFlow)
+    return coordinatorFlow
+  }()
+
 
   // MARK: - Init
 
@@ -52,7 +59,10 @@ private extension IZMainCoordinator {
   }
 
   func tabBar() {
-    let tabBar = factory.tabBar(comicCoordinatorFlow: comicCoordinatorFlow)
+    let tabBar = factory.tabBar(
+      comicCoordinatorFlow: comicCoordinatorFlow,
+      favoriteCoordinatorFlow: favoriteCoordinatorFlow
+    )
     router.push(tabBar, animated: true)
   }
 }

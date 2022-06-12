@@ -52,7 +52,7 @@ extension IZComicInteractor: IZComicInteractorProtocol {
   }
 
   func saveAsFavorite(_ comic: IZComicModel) {
-    isFavorite(comic) ? delete(comic) : save(comic)
+    comic.isFavorite ? delete(comic) : save(comic)
   }
 
   func isFavorite(_ comic: IZComicModel) -> Bool {

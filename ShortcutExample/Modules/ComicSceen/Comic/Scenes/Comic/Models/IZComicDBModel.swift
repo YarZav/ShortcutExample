@@ -1,6 +1,6 @@
 import CoreData
 
-@objc(Product)
+@objc(Comic)
 public final class IZComicDBModel: NSManagedObject {
 
   // MARK: - CoreData
@@ -29,10 +29,10 @@ extension IZComicDBModel: IZCoreDataModelIdentifiable {
   /// Number of comic
   @NSManaged public var num: String
 
-  /// Title of product
+  /// Title of comic
   @NSManaged public var title: String?
 
-  /// Transcript of product
+  /// Transcript of comic
   @NSManaged public var transcript: String?
 
   /// URl image
