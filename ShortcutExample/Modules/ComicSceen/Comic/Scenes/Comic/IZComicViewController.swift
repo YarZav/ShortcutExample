@@ -6,6 +6,8 @@ final class IZComicViewController: UIViewController, IZPresenterProtocol, IZComi
   private enum Constants {
     static let margin: CGFloat = 20
     static let imageShare = "square.and.arrow.up"
+    static let starImage = "star"
+    static let starFillImage = "star.fill"
   }
 
   // MARK: - Private property
@@ -18,6 +20,17 @@ final class IZComicViewController: UIViewController, IZPresenterProtocol, IZComi
       action: #selector(didShare)
     )
   }()
+
+  private var starBarButtonItem: UIBarButtonItem {
+    let isFavorite = presenter.comicModel?.isFavorite ?? false
+    let imageName = isFavorite ? Constants.starFillImage : Constants.starImage
+    return .init(
+      image: UIImage(systemName: imageName),
+      style: .plain,
+      target: self,
+      action: #selector(didTapFavorite)
+    )
+  }
 
   private lazy var searchBar: UISearchBar = {
     let searchBar = IZSearchBar()
@@ -65,11 +78,13 @@ final class IZComicViewController: UIViewController, IZPresenterProtocol, IZComi
 
 extension IZComicViewController: IZComicViewProtocol {
   func startLoading(with url: URL?) {
+    navigationItem.rightBarButtonItem = starBarButtonItem
     button.isUserInteractionEnabled = true
     imageView.load(with: url)
   }
 
   func startLoading() {
+    navigationItem.rightBarButtonItem = nil
     button.isUserInteractionEnabled = false
     imageView.showLoading()
   }
@@ -80,6 +95,7 @@ extension IZComicViewController: IZComicViewProtocol {
   }
 
   func showError() {
+    navigationItem.rightBarButtonItem = nil
     button.isUserInteractionEnabled = false
     imageView.showEmpty()
   }
@@ -109,7 +125,7 @@ private extension IZComicViewController {
       imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.margin),
       imageView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.margin),
       imageView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.margin),
-      imageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.margin),
+      imageView.bottomAnchor.constraint(equalTo:  view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.margin),
 
       button.topAnchor.constraint(equalTo: imageView.topAnchor),
       button.leftAnchor.constraint(equalTo: imageView.leftAnchor),
@@ -143,5 +159,11 @@ private extension IZComicViewController {
   func didTapDetail() {
     guard let model = presenter.comicModel else { return }
     onDetail?(model)
+  }
+
+  @objc
+  func didTapFavorite() {
+    presenter.saveAsFavorite()
+    navigationItem.rightBarButtonItem = starBarButtonItem
   }
 }

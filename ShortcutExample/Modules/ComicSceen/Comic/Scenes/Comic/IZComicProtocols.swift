@@ -15,6 +15,9 @@ protocol IZComicPresenterProtocol {
 
   /// Search comic by search text
   func search(by text: String?)
+
+  /// Set/unset as favorite
+  func saveAsFavorite()
 }
 
 // PRESENTER -> VIEW
@@ -45,4 +48,10 @@ protocol IZComicInteractorProtocol {
 
   /// Search comic
   func search(with text: String?, completion: ((Result<Data?, IZURLError>) -> Void)?)
+
+  /// Set/unset comic as favorite
+  func saveAsFavorite(_ comic: IZComicModel)
+
+  /// Check is comic favorite
+  func isFavorite(_ comic: IZComicModel) -> Bool
 }

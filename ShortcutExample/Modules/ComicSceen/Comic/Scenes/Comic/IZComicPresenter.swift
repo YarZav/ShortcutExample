@@ -36,7 +36,7 @@ extension IZComicPresenter: IZComicPresenterProtocol {
     view?.startLoading()
     interactor.loadCurrentComic { [weak self] result in
       DispatchQueue.main.async {
-        self?.loadCurrentComicResult(result)
+        self?.loadComicResult(result)
       }
     }
   }
@@ -45,7 +45,7 @@ extension IZComicPresenter: IZComicPresenterProtocol {
     view?.startLoading()
     interactor.search(with: text) { [weak self] result in
       DispatchQueue.main.async {
-        self?.loadCurrentComicResult(result)
+        self?.loadComicResult(result)
       }
     }
   }
@@ -59,26 +59,35 @@ extension IZComicPresenter: IZComicPresenterProtocol {
       }
     }
   }
+
+  func saveAsFavorite() {
+    guard let comic = self.comicModel else { return }
+    comic.isFavorite = !comic.isFavorite
+    interactor.saveAsFavorite(comic)
+  }
 }
 
 // MARK: - Private
 
 private extension IZComicPresenter {
-  func loadCurrentComicResult(_ result: Result<Data?, IZURLError>) {
+  func loadComicResult(_ result: Result<Data?, IZURLError>) {
     switch result {
     case .success(let data):
-      loadCurentComicValue(data)
+      loadComicValue(data)
     case .failure:
-      loadCurentComicError()
+      loadComicError()
     }
   }
 
-  func loadCurentComicValue(_ data: Data?) {
+  func loadComicValue(_ data: Data?) {
     comicModel = mapper.map(from: data)
+    if let model = comicModel {
+      comicModel?.isFavorite = interactor.isFavorite(model)
+    }
     view?.startLoading(with: comicModel?.img)
   }
 
-  func loadCurentComicError() {
+  func loadComicError() {
     view?.stopLoading()
     view?.showError()
   }
