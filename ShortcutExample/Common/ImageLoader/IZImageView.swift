@@ -100,5 +100,9 @@ extension IZImageView {
   func showEmpty() {
     imageView.image = UIImage(named: Constants.emptyImageName)
   }
+
+  var image: UIImage? {
+    imageView.image
+  }
 }
 
