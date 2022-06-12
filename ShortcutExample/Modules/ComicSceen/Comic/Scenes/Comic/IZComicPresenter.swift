@@ -62,8 +62,8 @@ extension IZComicPresenter: IZComicPresenterProtocol {
 
   func saveAsFavorite() {
     guard let comic = self.comicModel else { return }
-    comic.isFavorite = !comic.isFavorite
     interactor.saveAsFavorite(comic)
+    comic.isFavorite = !comic.isFavorite
   }
 }
 

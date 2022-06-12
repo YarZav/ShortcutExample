@@ -4,8 +4,8 @@ final class IZImageView: UIView {
   // MARK: - Constants
 
   private enum Constants {
-    static let imageSize: CGSize = .init(width: 100, height: 100)
     static let emptyImageName = "empty"
+    static let margin: CGFloat = 20
   }
 
   // MARK: - Private property
@@ -15,7 +15,7 @@ final class IZImageView: UIView {
   private lazy var activityIndicatorView = UIActivityIndicatorView(style: .medium)
   private lazy var imageView: UIImageView = {
     let imageView = UIImageView()
-    imageView.layer.cornerRadius = Constants.imageSize.width / 15
+    imageView.layer.cornerRadius = 20
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFit
     return imageView
@@ -48,8 +48,6 @@ private extension IZImageView {
       imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
       imageView.leftAnchor.constraint(equalTo: leftAnchor),
       imageView.rightAnchor.constraint(equalTo: rightAnchor),
-      imageView.heightAnchor.constraint(equalToConstant: Constants.imageSize.height),
-      imageView.widthAnchor.constraint(equalToConstant: Constants.imageSize.width),
 
       activityIndicatorView.topAnchor.constraint(equalTo: topAnchor),
       activityIndicatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
