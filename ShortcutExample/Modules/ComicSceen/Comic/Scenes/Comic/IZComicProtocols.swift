@@ -1,7 +1,15 @@
 import Foundation
 
+protocol IZComicOutputProtocol {
+  // Did tap on comic detail
+  var onDetail: ((IZComicModel) -> Void)? { get set }
+}
+
 // VIEW -> PRESENTER
 protocol IZComicPresenterProtocol {
+  /// Comic model
+  var comicModel: IZComicModel? { get }
+
   /// Initial view did load
   func viewDidLoad()
 

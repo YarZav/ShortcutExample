@@ -9,6 +9,7 @@ final class IZComicPresenter {
   // MARK: - Internal property
 
   weak var view: IZComicViewProtocol?
+  var comicModel: IZComicModel?
 
   // MARK: - Init
 
@@ -56,8 +57,8 @@ private extension IZComicPresenter {
   }
 
   func loadCurentComicValue(_ data: Data?) {
-    let model = mapper.map(from: data)
-    view?.startLoading(with: model?.img)
+    comicModel = mapper.map(from: data)
+    view?.startLoading(with: comicModel?.img)
   }
 
   func loadCurentComicError() {

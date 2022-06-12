@@ -1,6 +1,6 @@
 import UIKit
 
-final class IZComicViewController: UIViewController, IZPresenterProtocol {
+final class IZComicViewController: UIViewController, IZPresenterProtocol, IZComicOutputProtocol {
   // MARK: - Constants
 
   private enum Constants {
@@ -26,11 +26,20 @@ final class IZComicViewController: UIViewController, IZPresenterProtocol {
     return searchBar
   }()
 
+  private lazy var button: UIButton = {
+    let button = UIButton()
+    button.isUserInteractionEnabled = false
+    button.addTarget(self, action: #selector(didTapDetail), for: .touchUpInside)
+    return button
+  }()
+
   private lazy var imageView = IZImageView()
+
+  private let presenter: IZComicPresenterProtocol
 
   // MARK: - Internal property
 
-  var presenter: IZComicPresenterProtocol
+  var onDetail: ((IZComicModel) -> Void)?
 
   // MARK: - Init
 
@@ -56,18 +65,22 @@ final class IZComicViewController: UIViewController, IZPresenterProtocol {
 
 extension IZComicViewController: IZComicViewProtocol {
   func startLoading(with url: URL?) {
+    button.isUserInteractionEnabled = true
     imageView.load(with: url)
   }
 
   func startLoading() {
+    button.isUserInteractionEnabled = false
     imageView.showLoading()
   }
 
   func stopLoading() {
+    button.isUserInteractionEnabled = true
     imageView.hideLoading()
   }
 
   func showError() {
+    button.isUserInteractionEnabled = false
     imageView.showEmpty()
   }
 }
@@ -87,12 +100,21 @@ private extension IZComicViewController {
 
   func createImageView() {
     view.addSubview(imageView)
+    view.addSubview(button)
+
     imageView.translatesAutoresizingMaskIntoConstraints = false
+    button.translatesAutoresizingMaskIntoConstraints = false
+
     NSLayoutConstraint.activate([
       imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.margin),
       imageView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.margin),
       imageView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.margin),
       imageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.margin),
+
+      button.topAnchor.constraint(equalTo: imageView.topAnchor),
+      button.leftAnchor.constraint(equalTo: imageView.leftAnchor),
+      button.rightAnchor.constraint(equalTo: imageView.rightAnchor),
+      button.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
     ])
   }
 }
@@ -115,5 +137,11 @@ private extension IZComicViewController {
     let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
     activityViewController.popoverPresentationController?.sourceView = view
     present(activityViewController, animated: true, completion: nil)
+  }
+
+  @objc
+  func didTapDetail() {
+    guard let model = presenter.comicModel else { return }
+    onDetail?(model)
   }
 }
