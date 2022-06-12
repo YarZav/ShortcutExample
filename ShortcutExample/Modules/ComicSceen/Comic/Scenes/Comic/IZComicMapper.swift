@@ -28,6 +28,12 @@ private extension IZComicMapper {
       let title = apiModel?.title.nilIfEmpty
     else { return nil }
     let dateComponents = DateComponents(calendar: Calendar.current, year: Int(year), month: Int(month), day: Int(day))
-    return .init(date: dateComponents.date, num: num, transcript: apiModel?.transcript, img: url, title: title)
+    return .init(
+      date: dateComponents.date,
+      num: num,
+      transcript: apiModel?.transcript,
+      img: url,
+      title: title
+    )
   }
 }
