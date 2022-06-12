@@ -13,6 +13,7 @@ final class IZImageView: UIView {
   private let imageManager: IZImageLoaderManagerProtocol = IZImageLoaderManager()
 
   private lazy var activityIndicatorView = UIActivityIndicatorView(style: .medium)
+
   private lazy var imageView: UIImageView = {
     let imageView = UIImageView()
     imageView.layer.cornerRadius = 20

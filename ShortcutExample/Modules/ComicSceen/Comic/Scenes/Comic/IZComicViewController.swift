@@ -78,6 +78,7 @@ final class IZComicViewController: UIViewController, IZPresenterProtocol, IZComi
 
 extension IZComicViewController: IZComicViewProtocol {
   func startLoading(with url: URL?) {
+    searchBar.resignFirstResponder()
     navigationItem.rightBarButtonItem = starBarButtonItem
     button.isUserInteractionEnabled = true
     imageView.load(with: url)
@@ -157,6 +158,7 @@ private extension IZComicViewController {
 
   @objc
   func didTapDetail() {
+    searchBar.resignFirstResponder()
     guard let model = presenter.comicModel else { return }
     onDetail?(model)
   }

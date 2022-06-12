@@ -9,4 +9,8 @@ end
 
 target 'ShortcutExample' do
   openSourcePods
+
+  target 'ShortcutExampleTests' do
+    inherit! :search_paths
+  end
 end
