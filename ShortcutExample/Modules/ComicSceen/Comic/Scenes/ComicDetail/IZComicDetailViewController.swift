@@ -9,6 +9,8 @@ final class IZComicDetailViewController: UIViewController, IZPresenterProtocol {
 
   // MARK: - Private property
 
+  private lazy var scrollView = UIScrollView()
+
   private lazy var dateLabel: UILabel = {
     let label = UILabel()
     model.date.map {
@@ -24,7 +26,7 @@ final class IZComicDetailViewController: UIViewController, IZPresenterProtocol {
     let label = UILabel()
     label.text = model.transcript
     label.font = .systemFont(ofSize: 13)
-    label.numberOfLines = 3
+    label.numberOfLines = 0
     return label
   }()
 
@@ -66,28 +68,36 @@ private extension IZComicDetailViewController {
     view.backgroundColor = .white
     title = model.title
 
-    view.addSubview(dateLabel)
-    view.addSubview(transcriptLabel)
-    view.addSubview(imageView)
+    view.addSubview(scrollView)
+    scrollView.addSubview(dateLabel)
+    scrollView.addSubview(transcriptLabel)
+    scrollView.addSubview(imageView)
 
+    scrollView.translatesAutoresizingMaskIntoConstraints = false
     dateLabel.translatesAutoresizingMaskIntoConstraints = false
     transcriptLabel.translatesAutoresizingMaskIntoConstraints = false
     imageView.translatesAutoresizingMaskIntoConstraints = false
 
     NSLayoutConstraint.activate([
-      dateLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.margin),
-      dateLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.margin),
-      dateLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.margin),
+      scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+      scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+      scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+      dateLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: Constants.margin),
+      dateLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: Constants.margin),
+      dateLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -Constants.margin),
 
       transcriptLabel.topAnchor.constraint(equalTo: dateLabel.topAnchor, constant: Constants.margin),
-      transcriptLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.margin),
-      transcriptLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.margin),
+      transcriptLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: Constants.margin),
+      transcriptLabel.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -Constants.margin),
 
-
-      imageView.topAnchor.constraint(equalTo: transcriptLabel.topAnchor, constant: Constants.margin),
-      imageView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.margin),
-      imageView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.margin),
-      imageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.margin),
+      imageView.topAnchor.constraint(equalTo: transcriptLabel.bottomAnchor, constant: Constants.margin),
+      imageView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: Constants.margin),
+      imageView.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -Constants.margin),
+      imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -Constants.margin),
+      imageView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -Constants.margin * 2),
+      imageView.heightAnchor.constraint(equalTo: view.widthAnchor),
     ])
   }
 }
