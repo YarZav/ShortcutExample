@@ -88,6 +88,7 @@ extension IZImageView {
   }
 
   func showLoading() {
+    imageView.image = nil
     imageView.backgroundColor = .systemGray6
     activityIndicatorView.startAnimating()
   }
