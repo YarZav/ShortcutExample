@@ -29,14 +29,14 @@ open *.xcworkspace via Xcode
 
 tap CMD+R
 
-#Architecture
+# Architecture
 
 Coordinator Flow Pattern
 Viper Pattern
 Core Data
 Module architecture
 
-#Structure
+# Structure
 - ShortcutExample
   - Assets.xcassets (Images)
   - Localizable.strings (EN strings with key-value)
